@@ -4,7 +4,7 @@
 >
 > This repository only contains files for one version/attempt at making this model. This is why the folder and file names might seem odd, but they are just part of a larger project.
 
-![Model Architecture](../model/Global/price_model_architecture.png)
+![Model Architecture](model/Global/price_model_architecture.png)
 
 > If the image doesn’t exist yet, generate it by enabling the `plot_model(...)` line in `CloudScripts/runModel.py` (see **Generate the model diagram** below).
 
@@ -57,10 +57,11 @@ CloudScripts/
   multiEval.py
   FeatureImportance.py
   intraday/                  # Cached SIP parquet files (auto‑created)
-../Data/
+Data/
   sectors.csv
   splits.pkl
-../model/
+  AAPL.csv                   # csv files for each ticker
+model/
   Data/                      # Saved scalers & ID maps; per‑ticker H5 files
   Global/                    # Trained models, loss curves, and architecture PNG
 ```
@@ -133,9 +134,9 @@ Outputs are configured in training (stage‑1 price; stage‑2 adds confidence).
 
 ### `runModel.py`
 End‑to‑end training script:
-- Loads config (`../model/Data/Globalconfig.json`) and cached scalers/ID maps.
+- Loads config (`model/Data/Globalconfig.json`) and cached scalers/ID maps.
 - Builds TensorFlow datasets and **trains stage‑1** with `directional_mse_loss` and metrics (`explained_variance`, `directional_accuracy`).
-- Saves artifacts to `../model/Global/`:
+- Saves artifacts to `model/Global/`:
   - `backbone_price.keras` (stage‑1 model)
   - `price_loss.png` (training curve)
   - `price_model_architecture.png` (if enabled; see below)
@@ -203,13 +204,14 @@ sudo apt-get install graphviz
 ---
 
 ## Configuration & Paths
+> These will all be created through the pipeline
 
-- Config JSON: `../model/Data/Globalconfig.json` (includes `SEQ_LENGTH`, `FUTURE_LENGTH`, `DATE`, etc.).
+- Config JSON: `model/Data/Globalconfig.json` (includes `SEQ_LENGTH`, `FUTURE_LENGTH`, `DATE`, etc.).
 - Preprocessed datasets & scalers:
-  - Global H5: `../model/Data/processedData.h5`
-  - Per‑ticker H5: `../model/Data/Ticker_Data/<TICKER>.h5`
-  - Scalers/IDs: `../model/Data/scalers.pkl`, `../model/Data/sector_to_id.pkl`, `../model/Data/stock_to_id.pkl`
-- Trained models, curves, and diagrams: `../model/Global/`
+  - Global H5: `model/Data/processedData.h5`
+  - Per‑ticker H5: `model/Data/Ticker_Data/<TICKER>.h5`
+  - Scalers/IDs: `model/Data/scalers.pkl`, `model/Data/sector_to_id.pkl`, `model/Data/stock_to_id.pkl`
+- Trained models, curves, and diagrams: `model/Global/`
 
 > All `../` paths are **relative to `CloudScripts/`**, i.e., they write to project‑root folders outside this directory.
 
@@ -227,4 +229,5 @@ sudo apt-get install graphviz
 ## License
 
 This code is provided for research and educational purposes. Verify compliance of data sources (Yahoo Finance, Alpaca) with their terms of service before commercial use.
+
 
