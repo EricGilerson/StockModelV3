@@ -1,6 +1,8 @@
 # StockModel — CloudScripts Pipeline
 
 > End‑to‑end pipeline for building a daily stock movement model with intraday micro‑features, grouped feature scaling, a hybrid Conv/Transformer/LSTM backbone, and evaluation utilities.
+>
+> This repository only contains files for one version/attempt at making this model. This is why the folder and file names might seem odd, but they are just part of a larger project.
 
 ![Model Architecture](../model/Global/price_model_architecture.png)
 
@@ -225,3 +227,4 @@ sudo apt-get install graphviz
 ## License
 
 This code is provided for research and educational purposes. Verify compliance of data sources (Yahoo Finance, Alpaca) with their terms of service before commercial use.
+
